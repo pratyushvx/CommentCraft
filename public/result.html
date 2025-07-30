@@ -1,0 +1,28 @@
+<!-- public/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Result</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>AI Generated Result</h1>
+  <pre id="output"></pre>
+
+  <script>
+    (async () => {
+  try {
+    const res = await fetch('/getresult');
+    const data = await res.json();
+    document.getElementById('output').innerText = data.result;
+  } catch (err) {
+    document.getElementById('output').innerText = "❌ Failed to load result.";
+    console.error(err);
+  }
+})();
+
+  </script>
+  
+</body>
+</html>

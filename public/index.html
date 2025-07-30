@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1> Comment Craft </h1>
+    <h2>Crafted comments and tests from AI</h2>
+    <div>
+        <form >
+          <label for="code">Enter Your Code Here </label>
+          <textarea id="code" name="code" placeholder="Enter Your Code Here ..."></textarea>
+          <button type="submit" id="submit" >Generate</button>
+        </form>
+    </div>
+        <pre id="result"></pre>
+        
+
+    <script>
+
+   let code=document.getElementById('code');
+    const button=document.getElementById('submit');
+    button.addEventListener('click',async (e)=>{
+        e.preventDefault();
+        document.getElementById("result").innerText = "⌛ Loading...";
+        //Fetch data to backend
+        code=code.value;
+        try{
+         const response=await fetch('/generate',{
+         method:"POST",
+         headers:{'Content-Type':'application/json'},
+         body:JSON.stringify({code})
+         });
+         if (response.redirected){
+      window.location.href = response.url;
+      document.getElementById("result").innerText = ""; // ✅ Go to /result page
+    }else {
+      const data = await response.json();
+      document.getElementById("result").innerText = data.result;
+    }
+
+
+        }catch(e){
+        console.log(e);
+        }
+    })
+    </script>
+</body>
+</html>
